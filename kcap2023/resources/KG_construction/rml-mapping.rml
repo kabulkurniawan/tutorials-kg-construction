@@ -1,0 +1,148 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix rml: <http://semweb.mmlab.be/ns/rml#> .
+@prefix ql: <http://semweb.mmlab.be/ns/ql#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ex: <http://www.ex.org/> .
+@prefix ontology: <http://data.sfgov.org/ontology/> .
+@prefix grel: <http://users.ugent.be/~bjdmeest/function/grel.ttl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+################################################################
+# Aircraft TriplesMap
+################################################################
+:AircraftMap
+  a rr:TriplesMap ;
+  rml:logicalSource [
+    rml:source "data/sfo-aircraft-tail-numbers-and-models.csv" ;
+    rml:referenceFormulation ql:CSV
+  ] ;
+
+  # subject: http://www.ex.org/Aircraft/{aircraft_id}
+  rr:subjectMap [
+    rr:template "http://www.ex.org/Aircraft/{aircraft_id}" ;
+    rr:termType rr:IRI
+  ] ;
+
+  # rdf:type ex:Aircraft
+  rr:predicateObjectMap [
+    rr:predicate rdf:type ;
+    rr:objectMap [ rr:constant ex:Aircraft ]
+  ] ;
+
+  # ex:hasID   -> literal from column aircraft_id (xsd:string)
+  rr:predicateObjectMap [
+    rr:predicate ex:hasID ;
+    rr:objectMap [
+      rml:reference "aircraft_id" ;
+      rr:datatype xsd:string
+    ]
+  ] ;
+
+  # ex:hasAircraftModel -> IRI ex:AircraftModel/{aircraft_model}
+  rr:predicateObjectMap [
+    rr:predicate ex:hasAircraftModel ;
+    rr:objectMap [
+      rr:template "http://www.ex.org/AircraftModel/{aircraft_model}" ;
+      rr:termType rr:IRI
+    ]
+  ] ;
+
+  # ex:hasOwningAirline -> IRI ex:Airline/{airline}
+  rr:predicateObjectMap [
+    rr:predicate ex:hasOwningAirline ;
+    rr:objectMap [
+      rr:template "http://www.ex.org/Airline/{airline}" ;
+      rr:termType rr:IRI
+    ]
+  ] ;
+
+  # ex:hasCreationDate -> literal (xsd:dateTime) from creation_date
+  rr:predicateObjectMap [
+    rr:predicate ex:hasCreationDate ;
+    rr:objectMap [
+      rml:reference "creation_date" ;
+      rr:datatype xsd:dateTime
+    ]
+  ] ;
+
+  # ex:hasModificationDate -> literal (xsd:dateTime) from modification_date
+  rr:predicateObjectMap [
+    rr:predicate ex:hasModificationDate ;
+    rr:objectMap [
+      rml:reference "modification_date" ;
+      rr:datatype xsd:dateTime
+    ]
+  ] ;
+
+  # ex:hasStatus -> literal xsd:string
+  rr:predicateObjectMap [
+    rr:predicate ex:hasStatus ;
+    rr:objectMap [
+      rml:reference "status" ;
+      rr:datatype xsd:string
+    ]
+  ] ;
+
+  # ex:hasTailNumber -> literal xsd:string
+  rr:predicateObjectMap [
+    rr:predicate ex:hasTailNumber ;
+    rr:objectMap [
+      rml:reference "tail_number" ;
+      rr:datatype xsd:string
+    ]
+  ] .
+
+################################################################
+# Airline TriplesMap
+################################################################
+:AirlineMap
+  a rr:TriplesMap ;
+  rml:logicalSource [
+    rml:source "data/sfo-aircraft-tail-numbers-and-models.csv" ;
+    rml:referenceFormulation ql:CSV
+  ] ;
+
+  # subject: http://www.example.org/Airline/{airline}
+  rr:subjectMap [
+    rr:template "http://www.example.org/Airline/{airline}" ;
+    rr:termType rr:IRI
+  ] ;
+
+  # rdf:type ex:Airline
+  rr:predicateObjectMap [
+    rr:predicate rdf:type ;
+    rr:objectMap [ rr:constant ex:Airline ]
+  ] ;
+
+  # ex:owns -> IRI http://www.ex.org/Aircraft/{aircraft_id}
+  rr:predicateObjectMap [
+    rr:predicate ex:owns ;
+    rr:objectMap [
+      rr:template "http://www.ex.org/Aircraft/{aircraft_id}" ;
+      rr:termType rr:IRI
+    ]
+  ] .
+
+################################################################
+# AircraftModel TriplesMap
+################################################################
+:AircraftModelMap
+  a rr:TriplesMap ;
+  rml:logicalSource [
+    rml:source "data/sfo-aircraft-tail-numbers-and-models.csv" ;
+    rml:referenceFormulation ql:CSV
+  ] ;
+
+  # subject: http://www.ex.org/AircraftModel/{aircraft_model}
+  rr:subjectMap [
+    rr:template "http://www.ex.org/AircraftModel/{aircraft_model}" ;
+    rr:termType rr:IRI
+  ] ;
+
+  # rdf:type ex:AircraftModel
+  rr:predicateObjectMap [
+    rr:predicate rdf:type ;
+    rr:objectMap [ rr:constant ex:AircraftModel ]
+  ] .
